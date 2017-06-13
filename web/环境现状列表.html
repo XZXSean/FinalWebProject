@@ -16,7 +16,7 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-lg-7" style="margin:2% 0% 1% 0%" >
+        <div class="col-lg-7" style="margin:2% 0% 1% 0%">
             <div class="input-group">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
                 <input type="text" class="form-control" placeholder="现状环境整治措施" id="searchContent">
@@ -70,14 +70,14 @@
     })
 
     $("#btn_search").bind("click", function (e) {
-        alert($("#searchContent").val());
+        addData($("#searchContent").val());
     })
 
     $("#btn_clear").bind("click", function (e) {
         $("#searchContent").val("");
     })
 
-    $(".search input").attr('placeholder',"列表内搜索")
+    $(".search input").attr('placeholder', "列表内搜索")
 
 
 
@@ -86,8 +86,6 @@
     }
     function init(table, url, params, titles, hasCheckbox, toolbar) {
         $(table).bootstrapTable({
-            url: url,                           //请求后台的URL（*）
-            method: 'post',                     //请求方式（*）
             toolbar: toolbar,                   //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
             cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -105,52 +103,36 @@
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: true,                //是否启用点击选中行
             height: 500,                         //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
 
             showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
             detailView: false,                  //是否显示父子表
+            columns: createCols(params, titles, hasCheckbox),
 
             //传递参数（*），这里应该返回一个object，即形如{param1:val1,param2:val2}
+/* sidePagination:server模式下的时候 需要添加的选项
+            url: url,                           //请求后台的URL（*）
+            method: 'post',                     //请求方式（*）
+            dataType: "json",                   //json格式数据
             queryParams: function queryParams(params) {
                 var param = {
                     pageNumber: params.pageNumber,
                     pageSize: params.pageSize,
-                    orderNum : $("#orderNum").val()
+                    orderNum: $("#orderNum").val()
                 };
                 return param;
             },
-            onLoadSuccess: function(){  //加载成功时执行
+            onLoadSuccess: function () {  //加载成功时执行
                 layer.msg("加载成功");
             },
-            onLoadError: function(){  //加载失败时执行
-                layer.msg("加载数据失败", {time : 1500, icon : 2});
-            },
-            columns: createCols(params, titles, hasCheckbox),
-            data: [{
-                id: "H009",
-                department: '宫殿遗址',
-                description: '绿化覆盖率低'
-            }, {
-                id: "H010",
-                department: 'Item 2',
-                description: '$2'
-            }, {
-                id: "H011",
-                department: 'Item 2',
-                description: '$2'
-            }, {
-                id: "H012",
-                department: 'Item 2',
-                description: '$2'
-            }, {
-                id: "H013",
-                department: 'Item 2',
-                description: '$2'
-            }]
+            onLoadError: function () {  //加载失败时执行
+                layer.msg("加载数据失败", {time: 1500, icon: 2});
+            }
+
+*/
         });
     }
-
     function createCols(params, titles, hasCheckbox) {
         if (params.length != titles.length)
             return null;
@@ -164,11 +146,26 @@
             var obj = {};
             obj.field = params[i];
             obj.title = titles[i];
+            obj.width="1";
             arr.push(obj);
         }
         return arr;
     }
 
+
+    function addData(searchContent) {
+        $.ajax({
+            type:'get',
+            url:"http://localhost:8088/web/getlist?searchContent="+searchContent ,
+            success:function(data){
+                $("#table").bootstrapTable("load",eval(data));
+            },
+            error:function(){
+                //请求出错处理
+                alert("err");
+            }
+        })
+    }
 </script>
 </body>
 </html>
