@@ -33,5 +33,6 @@ public class ItemDetailServelt extends HttpServlet {
             pw.print("{}");
         else
             pw.print(item.getDetailJson());
+
     }
 }
