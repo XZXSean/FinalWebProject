@@ -2,6 +2,7 @@ package servelt;
 
 import dao.ItemDAO;
 import service.ItemMap;
+import service.ItemsMapController;
 import tools.DBhelper;
 
 import java.io.IOException;
@@ -23,11 +24,12 @@ public class EnvironmentListServelt extends javax.servlet.http.HttpServlet {
         //得到搜索的内容
         String searchContent = request.getParameter("searchContent");
 
-        //经过一系列的查找 doSomething()
-        ItemMap itemMap = search("");
 
-        //返回json数据
-        pw.print(itemMap.getItemsJson());
+        //经过一系列的查找 doSomething()
+        ItemsMapController.search("");
+
+        //返回json id,name,department,description数据
+        pw.print(ItemsMapController.itemMap.getItemsJson());
     }
 
     private ItemMap search(String key) {

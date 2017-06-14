@@ -20,6 +20,13 @@ public class ItemMap {
             itemsMap.put(item.getId(),item);
     }
 
+    public void addItem(String id,String name,String department,String description,String date,String address,String comments){
+        if(itemsMap.containsKey(id))
+            return ;
+        else
+            itemsMap.put(id,new ItemDAO(id, name, department, description,date,address,comments));
+    }
+
     public void deleteItem(ItemDAO item){
         if(item==null)
             return ;
@@ -48,11 +55,22 @@ public class ItemMap {
         return jsonData;
     }
 
+    //得到对应Key item的json
     public String getItemDetailJson(String key){
         ItemDAO item=getItem(key);
         if(item==null)
             return "{}";
         else
             return item.getDetailJson();
+    }
+
+    //给item添加详情
+    public void modifyItemDetail(String id,String date,String address,String comments){
+        ItemDAO item=getItem(id);
+        if(item==null)
+            return ;
+        item.setDate(date);
+        item.setAddress(address);
+        item.setComments(comments);
     }
 }

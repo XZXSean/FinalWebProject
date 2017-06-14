@@ -11,6 +11,16 @@
         <servlet-name>EnvironmentListServelt</servlet-name>
         <url-pattern>/getlist</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ItemDetailServelt</servlet-name>
+        <servlet-class>servelt.ItemDetailServelt</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ItemDetailServelt</servlet-name>
+        <url-pattern>/getDetailById</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>环境现状列表.html</welcome-file>
     </welcome-file-list>

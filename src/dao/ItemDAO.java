@@ -21,6 +21,16 @@ public class ItemDAO {
         this.description = description;
     }
 
+    public ItemDAO(String id, String name,String department, String description,  String date, String address, String comments) {
+        Id = id;
+        this.department = department;
+        this.description = description;
+        this.name = name;
+        this.date = date;
+        this.address = address;
+        this.comments = comments;
+    }
+
     public String getName() {
         return name;
     }
@@ -88,11 +98,26 @@ public class ItemDAO {
     @Override
     public boolean equals(Object object) {
         boolean flag = object instanceof ItemDAO;
-        if (flag == false) {
+        if (flag == false)
             return false;
-        }
         ItemDAO item = (ItemDAO) object;
         if (this.getId().equals(item.getId()) && this.getDepartment().equals(item.getDepartment()) && this.getDescription().equals(item.getDescription()))
+            return true;
+        else
+            return false;
+    }
+
+    //和item完全比较
+    public boolean compareTo(ItemDAO item){
+        if(item==null)
+            return false;
+        if (this.getId().equals(item.getId())
+                && this.getDepartment().equals(item.getDepartment())
+                && this.getDescription().equals(item.getDescription())
+                &&this.getName().equals(item.getName())
+                &&this.getAddress().equals(item.getAddress())
+                &&this.getDate().equals(item.getDate())
+                &&this.getComments().equals(item.getComments()))
             return true;
         else
             return false;
