@@ -47,7 +47,7 @@
 </div>
 
 <script>
-    createBootstrapTable('#table', '', ['id', 'department', 'description'], ['现状环境整治编号', '所属文物保护单位', '整治说明'], true, '#toolbar');
+    createBootstrapTable('#table', '#toolbar');
 
     $("#btn_add").bind("click", function (e) {
         var a = $("#table").bootstrapTable('getSelections');
@@ -81,10 +81,11 @@
 
 
 
-    function createBootstrapTable(table, url, params, titles, hasCheckbox, toolbar) {
-        init(table, url, params, titles, hasCheckbox, toolbar);
+    function createBootstrapTable(table, toolbar) {
+        init(table, toolbar);
     }
-    function init(table, url, params, titles, hasCheckbox, toolbar) {
+
+    function init(table, toolbar) {
         $(table).bootstrapTable({
             toolbar: toolbar,                   //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色
@@ -94,8 +95,8 @@
             sortOrder: "asc",                   //排序方式
             sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
             pageNumber: 1,                       //初始化加载第一页，默认第一页
-            pageSize: 3,                       //每页的记录行数（*）
-            pageList: [20, 50, 100],            //可供选择的每页的行数（*）
+            pageSize: 8,                       //每页的记录行数（*）
+            pageList: [8,10, 20, 50],            //可供选择的每页的行数（*）
             search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
             strictSearch: false,                 //严格搜索
             showColumns: true,                  //是否显示所有的列
@@ -108,8 +109,33 @@
             showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
             cardView: false,                    //是否显示详细视图
             detailView: false,                  //是否显示父子表
-            columns: createCols(params, titles, hasCheckbox),
-
+            columns: [
+                {
+                    width: "5%",
+                    checkbox: true,
+                },
+                {
+                    field:"id",
+                    title:"现状环境整治编号",
+                    width: "20%",
+                    sortable: true,
+                },
+                {
+                    field:"name",
+                    title:"名字",
+                    width: "20%",
+                },
+                {
+                    field:"department",
+                    title:"所属文物保护单位",
+                    width: "20%",
+                },
+                {
+                    field:"description",
+                    title:"整治说明",
+                    width: "35%",
+                }
+            ],
             //传递参数（*），这里应该返回一个object，即形如{param1:val1,param2:val2}
 /* sidePagination:server模式下的时候 需要添加的选项
             url: url,                           //请求后台的URL（*）
@@ -142,7 +168,13 @@
             objc.checkbox = true;
             arr.push(objc);
         }
-        for (var i = 0; i < params.length; i++) {
+        var obj = {};
+        obj.field = params[0];
+        obj.title = titles[0];
+        obj.width="1";
+        obj.sortable="true";
+        arr.push(obj);
+        for (var i = 1; i < params.length; i++) {
             var obj = {};
             obj.field = params[i];
             obj.title = titles[i];

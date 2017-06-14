@@ -1,14 +1,13 @@
 package servelt;
 
 import dao.ItemDAO;
-import service.ItemList;
+import service.ItemMap;
 import tools.DBhelper;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Created by Shinelon on 2017/6/13.
@@ -22,32 +21,31 @@ public class EnvironmentListServelt extends javax.servlet.http.HttpServlet {
         response.setCharacterEncoding("utf-8");
         PrintWriter pw = response.getWriter();
         //得到搜索的内容
-        String searchContent=request.getParameter("searchContent");
+        String searchContent = request.getParameter("searchContent");
 
         //经过一系列的查找 doSomething()
-        ItemList itemList=search("");
+        ItemMap itemMap = search("");
 
         //返回json数据
-        System.out.println(itemList.getItemsJson());
-        pw.print(itemList.getItemsJson());
+        pw.print(itemMap.getItemsJson());
     }
 
-    private ItemList search(String key){
-        String sql = "select * from environmentlist";//SQL语句
+    private ItemMap search(String key) {
+        String sql = "select id,name,department,description from environmentlist";//SQL语句
         DBhelper db1 = new DBhelper(sql);//创建DBHelper对象
-        ItemList itemArrayList=new ItemList();
+        ItemMap itemMap=new ItemMap();
         try {
             ResultSet ret = db1.pst.executeQuery();//执行语句，得到结果集
             while (ret.next()) {
-                ItemDAO item = new ItemDAO(ret.getString(1),ret.getString(2),ret.getString(3));
-                itemArrayList.add(item);
+                ItemDAO item = new ItemDAO(ret.getString(1), ret.getString(2), ret.getString(3), ret.getString(4));
+                itemMap.addItem(item);
             }//显示数据
             ret.close();
             db1.close();//关闭连接
-            return itemArrayList;
+            return itemMap;
         } catch (SQLException e) {
             e.printStackTrace();
-            return itemArrayList;
+            return itemMap;
         }
     }
 
