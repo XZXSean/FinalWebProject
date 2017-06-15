@@ -42,7 +42,7 @@ public class ItemsService {
         for (int i = 0; i < ids.length-1 ; i++)
             sql+="id='"+ids[i]+"' or ";
         sql+="id='"+ids[ids.length-1]+"'";
-        System.out.println("删除sql:"+sql);
+
         DBhelper db1 = new DBhelper(sql);//创建DBHelper对象
         boolean flag = false;
         try {
@@ -58,7 +58,7 @@ public class ItemsService {
     //获得符合查询条件的Item的列表
     public static ArrayList<ItemDAO> getItemsByKey(String key) {
         ArrayList<ItemDAO> items = new ArrayList<>();
-        String sql = "select id,name,department,description,date,address,comments from environmentlist";//SQL语句
+        String sql = analysisKey(key);
         DBhelper db1 = new DBhelper(sql);//创建DBHelper对象
         try {
             ResultSet ret = db1.pst.executeQuery();//执行语句，得到结果集
@@ -123,6 +123,11 @@ public class ItemsService {
 
     //将关键字解析成为sql语句
     private static String analysisKey(String key) {
-        return key;
+        //关键字包括 id,名字，department,description,date,address,comments 7种  我选择搜索前4种  后面的 拒绝搜索
+        //需要用到数据库的正则表达式
+        //select * from table where id 包含key or department包含key or description 包含key 或者 name 包含 key
+        String sql = "select id,name,department,description,date,address,comments from environmentlist where id like '%"
+                +key+"%' or name like '%"+key+"%' or department like '%"+key+"%' or description like '%"+key+"%'";
+        return sql;
     }
 }

@@ -13,6 +13,14 @@
 //初始化table并和toolbar绑定
 createBootstrapTable('#table', '#toolbar');
 
+$("#btn_search").bind("click", function () {
+    addData($("#searchContent").val());
+})
+
+$("#btn_clear").bind("click", function () {
+    $("#searchContent").val("");
+})
+
 $("#btn_add").bind("click", function () {
     $("#addModal").modal();
 })
@@ -22,6 +30,9 @@ $("#btn_edit").bind("click", function () {
     if (selectItems.length == 0)
         return;
     //修改的话 直接展示所有信息就好了
+    // var a=($("#table").bootstrapTable('getRowByUniqueId',selectItems[0].id)).number;
+    //    alert(a);
+    // clickRowIndex=selectItems[0].number;
     $("#editId").val(selectItems[0].id);
     $("#editName").val(selectItems[0].name);
     $("#editDepartment").val(selectItems[0].department);
@@ -37,21 +48,22 @@ $("#btn_delete").bind("click", function () {
     if (selectItems.length == 0)
         return;
     //将delete的所选行的所有Id全部发送给服务器
-    var data= new Array();
-    for(var i=0;i<selectItems.length;i++)
-        data[i]=selectItems[i].id;
+    var data1 = new Array();
+    for (var i = 0; i < selectItems.length; i++)
+        data1[i] = selectItems[i].id;
     $.ajax({
         type: 'post',
         data: {
-            ids:data
+            ids: data1
         },
-        traditional:true,
+        traditional: true,
         url: "http://localhost:8080/web/deleteItems",
         success: function (data) {
-            if(data=="删除成功"){
-                refreshData();
+            if (data == "删除成功") {
+                for (var i = 0; i < data1.length; i++)
+                    $("#table").bootstrapTable('removeByUniqueId', data1[i]);
                 alert("删除成功");
-            }else
+            } else
                 alert("删除失败");
         },
         error: function () {
@@ -72,7 +84,7 @@ $("#btn_display").bind("click", function () {
         type: 'get',
         url: "http://localhost:8080/web/displayItem?id=" + selectItems[0].id,
         success: function (data) {
-            var temp = eval('('+data+")");
+            var temp = eval('(' + data + ")");
             $("#detailAddress").val(temp.address);
             $("#detailDate").val(temp.date);
             $("#detailComments").val(temp.comments);
@@ -83,14 +95,6 @@ $("#btn_display").bind("click", function () {
         }
     })
 
-})
-
-$("#btn_search").bind("click", function () {
-    addData($("#searchContent").val());
-})
-
-$("#btn_clear").bind("click", function () {
-    $("#searchContent").val("");
 })
 
 $("#addClear").bind("click", function () {
@@ -112,12 +116,12 @@ $("#add").bind("click", function () {
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         url: "http://localhost:8080/web/addItem",
         success: function (data) {
-            if(data=="添加成功"){
+            if (data == "添加成功") {
                 refreshData();
                 addModalClear();
                 alert("添加成功");
                 $("#addModal").modal("hide");
-            }else
+            } else
                 alert("添加失败");
         },
         error: function () {
@@ -129,7 +133,7 @@ $("#editClear").bind("click", function () {
     modifyModalClear();
 })
 $("#edit").bind("click", function () {
-    var data = {
+    var data1 = {
         id: $("#editId").val(),
         name: $("#editName").val(),
         department: $("#editDepartment").val(),
@@ -142,26 +146,24 @@ $("#edit").bind("click", function () {
         type: 'post',
         url: "http://localhost:8080/web/modifyItem",
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
-        data:data,
+        data: data1,
         success: function (data) {
-            if(data=="修改成功"){
+            if (data == "修改成功") {
                 refreshData();
                 modifyModalClear();
                 $("#modifyModal").modal("hide");
                 alert("修改成功");
-            }else
+            } else
                 alert("修改失败");
-            // var temp = eval('('+data+')');
         },
         error: function () {
-            alert("添加细节出错");
+            alert("修改出错");
         }
     })
 })
 
 
 $(".search input").attr('placeholder', "列表内搜索")
-
 
 function createBootstrapTable(table, toolbar) {
     init(table, toolbar);
@@ -181,7 +183,7 @@ function init(table, toolbar) {
         pageList: [8, 10, 20, 50],            //可供选择的每页的行数（*）
         search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
         strictSearch: false,                 //严格搜索
-        searchOnEnterKey:false,                //enter 搜索还是 自动搜索
+        searchOnEnterKey: false,                //enter 搜索还是 自动搜索
         showColumns: true,                  //是否显示所有的列
         showRefresh: true,                  //是否显示刷新按钮
         minimumCountColumns: 2,             //最少允许的列数
@@ -220,20 +222,23 @@ function init(table, toolbar) {
             },
             {
                 field: "date",
-                title: "date",
-                visible:false
+                title: "时代",
+                visible: false
             },
             {
                 field: "address",
-                title: "address",
-                visible:false
+                title: "地理位置",
+                visible: false
             },
             {
                 field: "comments",
-                title: "comments",
-                visible:false
+                title: "备注",
+                visible: false
             }
         ],
+        refresh:function () {
+            
+        }
         //传递参数（*），这里应该返回一个object，即形如{param1:val1,param2:val2}
         /* sidePagination:server模式下的时候 需要添加的选项
          url: url,                           //请求后台的URL（*）
@@ -263,9 +268,9 @@ function addData(searchContent) {
         type: 'get',
         url: "http://localhost:8080/web/getlist?searchContent=" + searchContent,
         success: function (data) {
-            itemsTable=eval(data);
+            itemsTable = eval(data);
             $("#table").bootstrapTable("load", itemsTable);
-            lastSearchContent=searchContent;
+            lastSearchContent = searchContent;
         },
         error: function () {
             alert("表数据加载错误");
@@ -273,13 +278,13 @@ function addData(searchContent) {
     })
 }
 
-var lastSearchContent;
-function refreshData(){
+var lastSearchContent;  //上一次搜索成功时候的搜索内容，在每次点击搜索的时候 更新
+function refreshData() {
     $.ajax({
         type: 'get',
         url: "http://localhost:8080/web/getlist?searchContent=" + lastSearchContent,
         success: function (data) {
-            itemsTable=eval(data);
+            itemsTable = eval(data);
             $("#table").bootstrapTable("load", itemsTable);
         },
         error: function () {

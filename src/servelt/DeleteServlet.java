@@ -21,9 +21,6 @@ public class DeleteServlet extends HttpServlet {
         PrintWriter pw = response.getWriter();
         //得到id数组
         String[] ids = request.getParameterValues("ids");
-        for (int i = 0; i < ids.length; i++) {
-            System.out.println(ids[i]);
-        }
         if(ItemsService.deleteItems(ids))
             pw.print("删除成功");
         else
