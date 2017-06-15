@@ -17,6 +17,9 @@
         /*.modal-body div input {*/
         /*color: #5cb85c;*/
         /*}*/
+        .modal .input-group {
+            margin: 10px 0%;
+        }
     </style>
 </head>
 <body>
@@ -31,13 +34,40 @@
             </div>
             <div class="modal-body">
                 <div style="padding: 0% 5%">
-                    <input id="addId" type="text" class="form-control" placeholder="现状环境整治编号"><br/>
-                    <input id="addName" type="text" class="form-control" placeholder="名字"><br/>
-                    <input id="addDepartment" type="text" class="form-control" placeholder="所属文物保护单位"><br/>
-                    <input id="addDescription" type="text" class="form-control" placeholder="整治说明"><br/>
-                    <input id="addDate" type="text" class="form-control" placeholder="时代"><br/>
-                    <input id="addAddress" type="text" class="form-control" placeholder="所在地址"><br/>
-                    <input id="addComments" type="text" class="form-control" placeholder="备注">
+                    <form>
+                        <div class="input-group">
+                            <span class="input-group-addon" data-toggle="popover" data-placement="top"
+                                  data-container="body" data-content="不同单位编号A-F"
+                                  title="编号说明">编号</span>
+                            <input id="addId" type="text" class="form-control" placeholder="现状环境整治编号"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">名字</span>
+                            <input id="addName" type="text" class="form-control" placeholder="名字"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" data-toggle="popover" data-placement="top"
+                                  data-container="body" data-content="革命遗址，古文化遗址，古建筑，石刻，古寺庙"
+                                  title="单位分类">保护单位</span>
+                            <input id="addDepartment" type="text" class="form-control" placeholder="所属文物保护单位"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">整治说明</span>
+                            <input id="addDescription" type="text" class="form-control" placeholder="整治说明"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">时代</span>
+                            <input id="addDate" type="text" class="form-control" placeholder="时代"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">地址</span>
+                            <input id="addAddress" type="text" class="form-control" placeholder="所在地址"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">备注</span>
+                            <input id="addComments" type="text" class="form-control" placeholder="备注">
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer">
@@ -60,13 +90,41 @@
             </div>
             <div class="modal-body">
                 <div style="padding: 0% 5%">
-                    <input id="editId" type="text" class="form-control" placeholder="现状环境整治编号" disabled="disabled"><br/>
-                    <input id="editName" type="text" class="form-control" placeholder="名字"><br/>
-                    <input id="editDepartment" type="text" class="form-control" placeholder="所属文物保护单位"><br/>
-                    <input id="editDescription" type="text" class="form-control" placeholder="整治说明"><br/>
-                    <input id="editDate" type="text" class="form-control" placeholder="时代"><br/>
-                    <input id="editAddress" type="text" class="form-control" placeholder="所在地址"><br/>
-                    <input id="editComments" type="text" class="form-control" placeholder="备注">
+                    <form>
+                        <div class="input-group">
+                            <span class="input-group-addon" data-toggle="popover" data-placement="top"
+                                  data-container="body" data-content="不同单位编号A-F"
+                                  title="编号说明">编号</span>
+                            <input id="editId" type="text" class="form-control" placeholder="现状环境整治编号" disabled="disabled"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">名字</span>
+                            <input id="editName" type="text" class="form-control" placeholder="名字"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" data-toggle="popover" data-placement="top"
+                                  data-container="body" data-content="革命遗址，古文化遗址，古建筑，石刻，古寺庙"
+                                  title="单位分类">保护单位</span>
+                            <input id="editDepartment" type="text" class="form-control" placeholder="所属文物保护单位"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">整治说明</span>
+                            <input id="editDescription" type="text" class="form-control" placeholder="整治说明"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">时代</span>
+                            <input id="editDate" type="text" class="form-control" placeholder="时代"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">地址</span>
+                            <input id="editAddress" type="text" class="form-control" placeholder="所在地址"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">备注</span>
+                            <input id="editComments" type="text" class="form-control" placeholder="备注">
+                        </div>
+                    </form>
+
                 </div>
             </div>
             <div class="modal-footer">
@@ -89,13 +147,41 @@
             </div>
             <div class="modal-body">
                 <div style="padding: 0% 5%">
-                    <input type="text" class="form-control" placeholder="现状环境整治编号" id="detailId"><br/>
-                    <input type="text" class="form-control" placeholder="名字" id="detailName"><br/>
-                    <input type="text" class="form-control" placeholder="所属文物保护单位" id="detailDepartment"><br/>
-                    <input type="text" class="form-control" placeholder="整治说明" id="detailDescription"><br/>
-                    <input type="text" class="form-control" placeholder="时代" id="detailDate"><br/>
-                    <input type="text" class="form-control" placeholder="所在地址" id="detailAddress"><br/>
-                    <input type="text" class="form-control" placeholder="备注" id="detailComments">
+                    <form>
+                        <div class="input-group">
+                            <span class="input-group-addon" data-toggle="popover" data-placement="top"
+                                  data-container="body" data-content="不同单位编号A-F"
+                                  title="编号说明">编号</span>
+                            <input id="detailId" type="text" class="form-control" placeholder="现状环境整治编号" disabled="disabled"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">名字</span>
+                            <input id="detailName" type="text" class="form-control" placeholder="名字" disabled="disabled"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" data-toggle="popover" data-placement="top"
+                                  data-container="body" data-content="革命遗址，古文化遗址，古建筑，石刻，古寺庙"
+                                  title="单位分类">保护单位</span>
+                            <input id="detailDepartment" type="text" class="form-control" placeholder="所属文物保护单位" disabled="disabled"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">整治说明</span>
+                            <input id="detailDescription" type="text" class="form-control" placeholder="整治说明" disabled="disabled"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">时代</span>
+                            <input id="detailDate" type="text" class="form-control" placeholder="时代" disabled="disabled"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">地址</span>
+                            <input id="detailAddress" type="text" class="form-control" placeholder="所在地址" disabled="disabled"><br/>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">备注</span>
+                            <input id="detailComments" type="text" class="form-control" placeholder="备注" disabled="disabled">
+                        </div>
+                    </form>
+
                 </div>
             </div>
             <div class="modal-footer">

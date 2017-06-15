@@ -10,6 +10,10 @@
  *
  */
 
+$(function () {
+    $("[data-toggle='popover']").popover();
+});
+
 //初始化table并和toolbar绑定
 createBootstrapTable('#table', '#toolbar');
 
