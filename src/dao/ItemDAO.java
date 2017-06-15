@@ -87,14 +87,6 @@ public class ItemDAO {
         this.description = description;
     }
 
-    public String getJson() {
-        return "{id: '" + this.getId() + "',name:'" + this.getName() + "',department: '" + this.getDepartment() + "',description: '" + this.getDescription() + "'}";
-    }
-
-    public String getDetailJson() {
-        return "{id: '" + this.getId() + "',name: '" + this.getName() + "',date: '" + this.getDate() + "',address:'" + this.getAddress() + "',comments:'" + this.getComments() + "'}";
-    }
-
     @Override
     public boolean equals(Object object) {
         boolean flag = object instanceof ItemDAO;

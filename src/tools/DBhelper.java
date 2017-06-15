@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBhelper {
-    public static final String url = "jdbc:mysql://localhost:3306/wwt_db";
+    public static final String url = "jdbc:mysql://localhost:3306/wwt_db?characterEncoding=utf-8";
     public static final String name = "com.mysql.jdbc.Driver";
     public static final String user = "wwt";
     public static final String password = "123456";

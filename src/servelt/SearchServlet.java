@@ -1,8 +1,8 @@
 package servelt;
 
 import dao.ItemDAO;
-import service.ItemMap;
-import service.ItemsMapController;
+import service.ItemsService;
+import tools.JsonHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 /**
- * Created by 是不是傻 on 2017/6/14.
- * 这个servlet负责解决Item细节输出的问题
+ * Created by Shinelon on 2017/6/15.
  */
-@WebServlet(name = "ItemDetailServelt")
-public class ItemDetailServelt extends HttpServlet {
+@WebServlet(name = "searchServlet")
+public class SearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
@@ -26,13 +26,12 @@ public class ItemDetailServelt extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         PrintWriter pw = response.getWriter();
         //得到搜索的内容
-        String id = request.getParameter("id");
+        String searchContent = request.getParameter("searchContent");
+        //经过一系列的查找 doSomething()
 
-        ItemDAO item = ItemsMapController.getItemById(id);
-        if (item == null)
-            pw.print("{}");
-        else
-            pw.print(item.getDetailJson());
-
+        ArrayList<ItemDAO> items=ItemsService.getItemsByKey(searchContent);
+        String itemsJson= JsonHelper.getItemsJson(items);
+        //返回json id,name,department,description数据
+        pw.print(itemsJson);
     }
 }
