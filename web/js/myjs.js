@@ -1,14 +1,3 @@
-/**
- * Created by 是不是傻 on 2017/6/14.
- * 6.14 19.56 重构项目
- *
- * 客户端维持一个表  服务端不维持
- * 客户端 每次搜索的时候 从服务端获得数据后 更新表
- * 删除的时候，先从向服务端要求删除数据，删除后 根据返回信息 删除表中行
- * 增加的时候，先向服务端要求增加数据，增加后 根据返回信息 增加表中行
- * 修改的时候，先向服务端要求修改数据，修改后 根据返回信息 修改表中行
- *
- */
 
 $(function () {
     $("[data-toggle='popover']").popover();
@@ -19,15 +8,15 @@ createBootstrapTable('#table', '#toolbar');
 
 $("#btn_search").bind("click", function () {
     addData($("#searchContent").val());
-})
+});
 
 $("#btn_clear").bind("click", function () {
     $("#searchContent").val("");
-})
+});
 
 $("#btn_add").bind("click", function () {
     $("#addModal").modal();
-})
+});
 
 $("#btn_edit").bind("click", function () {
     var selectItems = $("#table").bootstrapTable('getSelections');
@@ -45,7 +34,7 @@ $("#btn_edit").bind("click", function () {
     $("#editDate").val(selectItems[0].date);
     $("#editComments").val(selectItems[0].comments);
     $("#modifyModal").modal();
-})
+});
 
 $("#btn_delete").bind("click", function () {
     var selectItems = $("#table").bootstrapTable('getSelections');
@@ -74,24 +63,24 @@ $("#btn_delete").bind("click", function () {
             alert("err");
         }
     })
-})
+});
 
 $("#btn_display").bind("click", function () {
     var selectItems = $("#table").bootstrapTable('getSelections');
     if (selectItems.length == 0)
         return;
-    $("#detailId").val(selectItems[0].id);
-    $("#detailName").val(selectItems[0].name);
-    $("#detailDepartment").val(selectItems[0].department);
-    $("#detailDescription").val(selectItems[0].description);
+    $("#detailId").text(selectItems[0].id);
+    $("#detailName").text(selectItems[0].name);
+    $("#detailDepartment").text(selectItems[0].department);
+    $("#detailDescription").text(selectItems[0].description);
     $.ajax({
         type: 'get',
         url: "http://localhost:8080/web/displayItem?id=" + selectItems[0].id,
         success: function (data) {
             var temp = eval('(' + data + ")");
-            $("#detailAddress").val(temp.address);
-            $("#detailDate").val(temp.date);
-            $("#detailComments").val(temp.comments);
+            $("#detailAddress").text(temp.address);
+            $("#detailDate").text(temp.date);
+            $("#detailComments").text(temp.comments);
             $("#detailModal").modal();
         },
         error: function () {
@@ -103,7 +92,7 @@ $("#btn_display").bind("click", function () {
 
 $("#addClear").bind("click", function () {
     addModalClear();
-})
+});
 $("#add").bind("click", function () {
     var data = {
         id: $("#addId").val(),
@@ -132,10 +121,10 @@ $("#add").bind("click", function () {
             alert("err");
         }
     })
-})
+});
 $("#editClear").bind("click", function () {
     modifyModalClear();
-})
+});
 $("#edit").bind("click", function () {
     var data1 = {
         id: $("#editId").val(),
@@ -164,10 +153,27 @@ $("#edit").bind("click", function () {
             alert("修改出错");
         }
     })
-})
+});
 
+$(".search input").attr('placeholder', "列表内搜索");
 
-$(".search input").attr('placeholder', "列表内搜索")
+//查看按钮点击的弹出层 中的list 点击切换active
+$(".list-group-item").bind("click",function () {
+    $(".list-group-item").removeClass("active");
+    $(this).addClass("active");
+});
+
+//点击其余区域自动关闭 popover  要求所有的Popover带有class pop
+$('body').click(function (event) {
+    var target = $(event.target);       // 判断自己当前点击的内容
+    if (!target.hasClass('popover')
+        && !target.hasClass('pop')
+        && !target.hasClass('popover-content')
+        && !target.hasClass('popover-title')
+        && !target.hasClass('arrow')) {
+        $('.pop').popover('hide');      // 当点击body的非弹出框相关的内容的时候，关闭所有popover
+    }
+});
 
 function createBootstrapTable(table, toolbar) {
     init(table, toolbar);
